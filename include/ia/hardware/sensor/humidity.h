@@ -10,7 +10,7 @@ struct NGS_DLL_API humidity
 {
 	virtual ~humidity() = default;
 
-	virtual humidity_t get() const = 0;
+	virtual humidity_t get() const { return {}; }
 };
 
 IA_HW_SENSOR_END

@@ -1,13 +1,21 @@
-﻿# CMakeList.txt: goods_0 的 CMake 项目，在此处包括源代码并定义
-# 项目特定的逻辑。
-#
+﻿
+set(main_src "")
+file(GLOB_RECURSE main_src ${main_src} ${PROJECT_SOURCE_DIR}/include/*.h)
+file(GLOB main_src ${main_src} *.cpp *.c *.h *.hpp)
 
-# 将源代码添加到此项目的可执行文件。
+set(target_system "windows" CACHE STRING "Choose an system: windows, esp32(freeRTOS)")
+set_property(CACHE target_system PROPERTY STRINGS "windows" "esp32")
+message(STATUS "target system: ${target_system}")
 
-file(GLOB_RECURSE __include ${PROJECT_SOURCE_DIR}/include/*.h)
-aux_source_directory(. __src)
+if(target_system STREQUAL "windows")
+    add_subdirectory(windows)
+elseif(target_system STREQUAL "esp32")
+    add_subdirectory(esp32)
+else()
+    message(FATAL_ERROR "Invalid target system selected: ${target_system}")
+endif()
 
-add_executable (main ${__src} ${__include})
+add_executable (main ${main_src})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET main PROPERTY CXX_STANDARD 20)
@@ -22,6 +30,3 @@ target_include_directories(main PUBLIC ${nagisa_include} ${extern_include})
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(main PRIVATE _DEBUG)
 endif()
-
-
-# TODO: 如有需要，请添加测试并安装目标。

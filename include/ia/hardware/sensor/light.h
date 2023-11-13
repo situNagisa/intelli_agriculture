@@ -10,7 +10,7 @@ struct NGS_DLL_API light
 {
 	virtual ~light() = default;
 
-	virtual lumen_t get() const = 0;
+	virtual lumen_t get() const { return {}; }
 };
 
 IA_HW_SENSOR_END
