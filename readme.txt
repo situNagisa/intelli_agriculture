@@ -1,0 +1,2 @@
+运行build脚本
+进入构建出的目录，gcc的话用make命令构建，msvc直接用vs打开
