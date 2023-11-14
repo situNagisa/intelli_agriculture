@@ -32,12 +32,16 @@
     <ClInclude Include="api\hardware\sensor\temperature.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="defined.h" />
+    <ClInclude Include="detail.hpp" />
     <ClInclude Include="detail\factory.hpp" />
     <ClInclude Include="detail\hardward.h" />
     <ClInclude Include="detail\hardward\defined.h" />
     <ClInclude Include="detail\hardward\esp.h" />
+    <ClInclude Include="detail\hardward\esp\defined.h" />
+    <ClInclude Include="detail\hardward\esp\temperature.h" />
     <ClInclude Include="detail\hardward\windows.h" />
     <ClInclude Include="api\factory.h" />
+    <ClInclude Include="detail\hardward\windows\defined.h" />
     <ClInclude Include="detail\hardward\windows\temperature.h" />
     <ClInclude Include="ia.h" />
     <ClInclude Include="ia.hpp" />

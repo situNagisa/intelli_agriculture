@@ -90,6 +90,18 @@
     <ClInclude Include="config.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="detail.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardward\windows\defined.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardward\esp\defined.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardward\esp\temperature.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
