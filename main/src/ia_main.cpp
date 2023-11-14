@@ -9,10 +9,3 @@ void ia_main()
 	NGS_LOGFL(info, "temperature: %f", temp->get());
 
 }
-
-int main()
-{
-	ia_main();
-
-	return 0;
-}

@@ -2,6 +2,11 @@
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
-/_ReSharper.Caches/ReSharperPlatformVs17232_633edd78.intelli_agriculture.00
-/.vs
-/out/build/x64-Debug
+/main/_ReSharper.Caches
+/main/.vs
+/main/out
+/main/temp
+
+/esp32/.vscode
+/esp32/build
+/esp32/_ReSharper.Caches

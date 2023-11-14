@@ -2,7 +2,7 @@
 
 #include "./hardware.h"
 
-IA_BEGIN
+IA_API_BEGIN
 
 template<class _T>
 using creator_type = _T * (*)();
@@ -15,4 +15,4 @@ struct NGS_DLL_API factory {
 	static creator_type<hw::sensors::light> create_light;
 };
 
-IA_END
+IA_API_END
