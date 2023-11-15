@@ -1,16 +1,8 @@
 ﻿
 option(build_as_component "for esp idf build" FALSE)
 
-set(main_src 
-    "ia_main.cpp"
-)
+set(main_src)
 file(GLOB_RECURSE main_src ${main_src} ${PROJECT_SOURCE_DIR}/include/*.h)
-
-if(build_as_component)
-    add_subdirectory(esp32)
-else()
-    add_subdirectory(windows)
-endif()
 
 set(nagisa_include $ENV{NAGISA_DIR}/include CACHE PATH "")
 set(extern_include $ENV{NAGISA_ROOT}/include CACHE PATH "")

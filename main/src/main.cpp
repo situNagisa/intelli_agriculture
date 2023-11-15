@@ -1,4 +1,5 @@
-﻿#include "ia/ia.h"
+﻿#define NGS_USE_HPP true
+#include "ia/ia.h"
 
 int main()
 {
