@@ -1,5 +1,5 @@
 ﻿#define NGS_USE_HPP true
-#include "ia/ia.h"
+#include "ia/ia_main.hpp"
 
 int main()
 {

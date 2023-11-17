@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="api.h" />
     <ClInclude Include="api\defined.h" />
+    <ClInclude Include="api\embedded.h" />
+    <ClInclude Include="api\embedded\defined.h" />
     <ClInclude Include="api\hardware.h" />
     <ClInclude Include="api\hardware\defined.h" />
     <ClInclude Include="api\hardware\keyboard.h" />
@@ -33,20 +35,31 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="defined.h" />
     <ClInclude Include="detail.hpp" />
-    <ClInclude Include="detail\factory.hpp" />
-    <ClInclude Include="detail\hardward.h" />
-    <ClInclude Include="detail\hardward\defined.h" />
-    <ClInclude Include="detail\hardward\esp.h" />
-    <ClInclude Include="detail\hardward\esp\defined.h" />
-    <ClInclude Include="detail\hardward\esp\temperature.h" />
-    <ClInclude Include="detail\hardward\windows.h" />
-    <ClInclude Include="api\factory.h" />
-    <ClInclude Include="detail\hardward\windows\defined.h" />
-    <ClInclude Include="detail\hardward\windows\temperature.h" />
+    <ClInclude Include="detail\hardware.h" />
+    <ClInclude Include="detail\hardware\defined.h" />
+    <ClInclude Include="detail\hardware\esp.h" />
+    <ClInclude Include="detail\hardware\esp.hpp" />
+    <ClInclude Include="detail\hardware\esp\config.h" />
+    <ClInclude Include="detail\hardware\esp\defined.h" />
+    <ClInclude Include="detail\hardware\esp\factory.hpp" />
+    <ClInclude Include="detail\hardware\esp\lcd.h" />
+    <ClInclude Include="detail\hardware\esp\lcd.hpp" />
+    <ClInclude Include="detail\hardware\esp\lcd\command.h" />
+    <ClInclude Include="detail\hardware\esp\lcd\lcd.h" />
+    <ClInclude Include="detail\hardware\esp\lcd\lcd.hpp" />
+    <ClInclude Include="detail\hardware\esp\temperature.h" />
+    <ClInclude Include="detail\hardware.hpp" />
+    <ClInclude Include="detail\hardware\windows.h" />
+    <ClInclude Include="detail\factory.h" />
+    <ClInclude Include="detail\hardware\windows.hpp" />
+    <ClInclude Include="detail\hardware\windows\defined.h" />
+    <ClInclude Include="detail\hardware\windows\factory.hpp" />
+    <ClInclude Include="detail\hardware\windows\screen.h" />
+    <ClInclude Include="detail\hardware\windows\temperature.h" />
     <ClInclude Include="ia.h" />
     <ClInclude Include="ia.hpp" />
     <ClInclude Include="detail\defined.h" />
-    <ClInclude Include="detail\ia_main.hpp" />
+    <ClInclude Include="ia_main.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
@@ -90,18 +103,22 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
+    <Import Project="C:\configure\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
+    <Import Project="C:\configure\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
+    <Import Project="C:\configure\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
+    <Import Project="C:\configure\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

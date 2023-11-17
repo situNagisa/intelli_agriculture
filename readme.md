@@ -3,7 +3,7 @@
 1) esp32:  
 	使用esp-idf向esp开发板构建
 2) main:  
-	项目主逻辑，可在主机上运行
+	项目主逻辑，可在主机上运行  
 
 ## 构建方式：
 1) windows下visual studio环境:  
@@ -21,8 +21,8 @@
 	./esp32:
 		ESP-IDF官方集成环境
 	./main: 
-		NGS(https://github.com/situNagisa/NGS)
-		boost(https://github.com/boostorg/boost)
+		NGS
+		boost
 
 - [NGS](https://github.com/situNagisa/NGS)
 - [boost](https://github.com/boostorg/boost)

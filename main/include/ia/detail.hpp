@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "./detail/hardward.h"
-
-#include "./detail/factory.hpp"
-#include "./detail/ia_main.hpp"
+#include "./detail/factory.h"
+#include "./detail/hardware.h"
+#include "./detail/hardware.hpp"

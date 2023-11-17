@@ -1,3 +1,3 @@
 ﻿#pragma once
 
-#include "detail.hpp"
+#include "./detail.hpp"
