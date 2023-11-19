@@ -141,6 +141,12 @@
     <ClInclude Include="detail\hardware\esp\config.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="detail\hardware\windows\keyboard.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\keyboard.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">

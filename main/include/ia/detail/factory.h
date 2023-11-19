@@ -10,6 +10,7 @@ struct NGS_DLL_API factory {
 	static lcd* create_screen();
 #else
 	static screen* create_screen();
+	static keyboard* create_keyboard();
 #endif
 };
 

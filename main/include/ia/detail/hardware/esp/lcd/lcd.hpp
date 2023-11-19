@@ -87,9 +87,6 @@ NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pi
 		NGS_ASSERT(dc.open(dc_, config));
 		NGS_ASSERT(rst.open(rst_, config));
 		NGS_LOGL(info, "gpio opened successfully!");
-		//config.pin_bit_mask = ngs::bits::scope(dc_) | ngs::bits::scope(rst_);
-
-		//::gpio_config(&config);
 	}
 
 	_initialize();
@@ -156,7 +153,7 @@ NGS_HPP_INLINE void lcd::cmd(st_command cmd, bool keep_cs_active)
 
 	//NGS_LOGL(debug, "cmd");
 	const ngs::uint32 flags = ngs::bits::set(0, SPI_TRANS_CS_KEEP_ACTIVE, keep_cs_active);
-	master.polling_transmit(&cmd, 1, &_cmd, flags);
+	master.polling_transmit(cmd, &_cmd, flags);
 }
 
 NGS_HPP_INLINE void lcd::data(ngs::void_ptr_cst data, size_t size)
@@ -177,13 +174,12 @@ NGS_HPP_INLINE void lcd::_initialize()
 
 	auto&& lcd_init_cmds = st_init_cmds;
 
-	for (auto&& c : lcd_init_cmds)
+	for (auto&& [command, data, flag] : lcd_init_cmds)
 	{
-		//NGS_LOGFL(debug, "cmd = 0x%02x, size = %d", c.cmd, c.databytes & 0x1F);
-		if (c.databytes == 0xFF)break;
-		cmd(static_cast<st_command>(c.cmd), false);
-		data(c.data, c.databytes & 0x1F);
-		if (c.databytes & 0x80) {
+		if (flag == 0xFF)break;
+		cmd(static_cast<st_command>(command));
+		data(data, flag & 0x1F);
+		if (flag & 0x80) {
 			std::this_thread::sleep_for(100ms);
 		}
 	}

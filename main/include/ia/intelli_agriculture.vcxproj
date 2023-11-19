@@ -42,6 +42,7 @@
     <ClInclude Include="detail\hardware\esp\config.h" />
     <ClInclude Include="detail\hardware\esp\defined.h" />
     <ClInclude Include="detail\hardware\esp\factory.hpp" />
+    <ClInclude Include="detail\hardware\esp\keyboard.h" />
     <ClInclude Include="detail\hardware\esp\lcd.h" />
     <ClInclude Include="detail\hardware\esp\lcd.hpp" />
     <ClInclude Include="detail\hardware\esp\lcd\command.h" />
@@ -54,6 +55,7 @@
     <ClInclude Include="detail\hardware\windows.hpp" />
     <ClInclude Include="detail\hardware\windows\defined.h" />
     <ClInclude Include="detail\hardware\windows\factory.hpp" />
+    <ClInclude Include="detail\hardware\windows\keyboard.h" />
     <ClInclude Include="detail\hardware\windows\screen.h" />
     <ClInclude Include="detail\hardware\windows\temperature.h" />
     <ClInclude Include="ia.h" />
