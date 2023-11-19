@@ -49,6 +49,7 @@ NGS_HPP_GLOBAL_STATIC void pre_transfer_callback(spi_transaction_t* t)
 {
 	auto& data = *static_cast<lcd::user_data*>(t->user);
 	data.self->dc.set(static_cast<bool>(data.mode));
+	//NGS_LOGFL(debug, "mode = %d", data.mode);
 }
 
 NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pin_t dc_, api::pin_t rst_, size_t width, size_t height)
@@ -58,10 +59,13 @@ NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pi
 			.mosi_io_num = mosi,
 			.miso_io_num = ngs::embedded::io::invalid_pin,
 			.sclk_io_num = sclk,
+			.quadwp_io_num = ngs::embedded::io::invalid_pin,
+			.quadhd_io_num = ngs::embedded::io::invalid_pin,
+			.max_transfer_sz = static_cast<int>(width * height * 2) + 8
 		};
-		config.max_transfer_sz = static_cast<int>(width * height * 2);
 
 		NGS_ASSERT(master.open(config));
+		NGS_LOGL(info, "spi bus opened successfully!");
 	}
 	{
 		device.set_polarity(ngs::embedded::io::bus::spi::modes::polarity::low);
@@ -73,6 +77,7 @@ NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pi
 
 		master.add_device(device);
 		master.select(device);
+		NGS_LOGL(info, "spi device opened successfully!");
 	}
 	{
 		ngs::os_api::esp::io::gpio_config config{};
@@ -81,6 +86,10 @@ NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pi
 
 		NGS_ASSERT(dc.open(dc_, config));
 		NGS_ASSERT(rst.open(rst_, config));
+		NGS_LOGL(info, "gpio opened successfully!");
+		//config.pin_bit_mask = ngs::bits::scope(dc_) | ngs::bits::scope(rst_);
+
+		//::gpio_config(&config);
 	}
 
 	_initialize();
@@ -111,16 +120,16 @@ NGS_HPP_INLINE void lcd::show_picture(ngs::void_ptr_cst buffer, size_t x, size_t
 			tx_data[3] = end & 0xFF;
 		};
 
-	master.lock();
-	cmd(st_command::column_address_set, true);
+	//master.lock();
+	cmd(st_command::column_address_set);
 	set_range(x, x + width);
 	data(tx_data, 4);
-	cmd(st_command::page_address_set, true);
+	cmd(st_command::page_address_set);
 	set_range(y, y + height);
 	data(tx_data, 4);
-	cmd(st_command::memory_write, true);
-	data(static_cast<ngs::byte_ptr_cst>(buffer), width * height * 2);
-	master.unlock();
+	cmd(st_command::memory_write);
+	data(buffer, width * height * 2);
+	//master.unlock();
 }
 
 NGS_HPP_INLINE void lcd::reset()
@@ -135,25 +144,25 @@ NGS_HPP_INLINE void lcd::reset()
 
 NGS_HPP_INLINE ngs::uint32 lcd::get_id()
 {
-	master.lock();
-	cmd(st_command::read_id, true);
 	ngs::uint32 id{};
-	master.polling_receive(id, &_data);
-	master.unlock();
+	_read_data(st_command::read_id, &id, 3);
 	return id;
 }
 
 NGS_HPP_INLINE void lcd::cmd(st_command cmd, bool keep_cs_active)
 {
-	NGS_LOGL(debug, "cmd");
+	if (keep_cs_active)
+		NGS_ASSERT(master.is_locking(), "spi bus is not locking! please call `lock()` first");
+
+	//NGS_LOGL(debug, "cmd");
 	const ngs::uint32 flags = ngs::bits::set(0, SPI_TRANS_CS_KEEP_ACTIVE, keep_cs_active);
-	master.polling_transmit(cmd, &_cmd, flags);
+	master.polling_transmit(&cmd, 1, &_cmd, flags);
 }
 
-NGS_HPP_INLINE void lcd::data(ngs::byte_ptr_cst data, size_t size)
+NGS_HPP_INLINE void lcd::data(ngs::void_ptr_cst data, size_t size)
 {
 	if (!size)return;
-	NGS_LOGL(debug, "data");
+	//NGS_LOGL(debug, "data");
 	master.polling_transmit(data, size, &_data);
 }
 
@@ -161,21 +170,37 @@ NGS_HPP_INLINE void lcd::_initialize()
 {
 	using namespace std::chrono_literals;
 
+	reset();
+
 	auto id = get_id();
 	NGS_LOGFL(info, "lcd id: 0x%08x", id);
 
 	auto&& lcd_init_cmds = st_init_cmds;
 
-	size_t i = 0;
-	while (lcd_init_cmds[i].databytes != 0xff) {
-		cmd(static_cast<st_command>(lcd_init_cmds[i].cmd), false);
-		data(lcd_init_cmds[i].data, lcd_init_cmds[i].databytes & 0x1F);
-		if (lcd_init_cmds[i].databytes & 0x80) {
+	for (auto&& c : lcd_init_cmds)
+	{
+		//NGS_LOGFL(debug, "cmd = 0x%02x, size = %d", c.cmd, c.databytes & 0x1F);
+		if (c.databytes == 0xFF)break;
+		cmd(static_cast<st_command>(c.cmd), false);
+		data(c.data, c.databytes & 0x1F);
+		if (c.databytes & 0x80) {
 			std::this_thread::sleep_for(100ms);
 		}
-		i++;
 	}
-	NGS_LOGL(info, "lcd initalized sccussfully!");
+
+	NGS_LOGL(info, "lcd initalized successfully!");
+
+
+}
+
+NGS_HPP_INLINE void lcd::_read_data(st_command command, ngs::void_ptr buffer, size_t size)
+{
+	using namespace std::chrono_literals;
+
+	master.lock();
+	cmd(command, true);
+	master.polling_receive(buffer, size, &_data);
+	master.unlock();
 }
 
 
