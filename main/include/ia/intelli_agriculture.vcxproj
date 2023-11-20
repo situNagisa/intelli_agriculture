@@ -25,12 +25,13 @@
     <ClInclude Include="api\embedded\defined.h" />
     <ClInclude Include="api\hardware.h" />
     <ClInclude Include="api\hardware\defined.h" />
+    <ClInclude Include="api\hardware\flashlight.h" />
     <ClInclude Include="api\hardware\keyboard.h" />
     <ClInclude Include="api\hardware\screen.h" />
     <ClInclude Include="api\hardware\sensor.h" />
     <ClInclude Include="api\hardware\sensor\defined.h" />
     <ClInclude Include="api\hardware\sensor\humidity.h" />
-    <ClInclude Include="api\hardware\sensor\light.h" />
+    <ClInclude Include="api\hardware\sensor\photosensor.h" />
     <ClInclude Include="api\hardware\sensor\temperature.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="defined.h" />
@@ -41,6 +42,8 @@
     <ClInclude Include="detail\hardware\esp.hpp" />
     <ClInclude Include="detail\hardware\esp\config.h" />
     <ClInclude Include="detail\hardware\esp\defined.h" />
+    <ClInclude Include="detail\hardware\esp\dht.h" />
+    <ClInclude Include="detail\hardware\esp\dht.hpp" />
     <ClInclude Include="detail\hardware\esp\factory.hpp" />
     <ClInclude Include="detail\hardware\esp\keyboard.h" />
     <ClInclude Include="detail\hardware\esp\lcd.h" />
@@ -48,6 +51,8 @@
     <ClInclude Include="detail\hardware\esp\lcd\command.h" />
     <ClInclude Include="detail\hardware\esp\lcd\lcd.h" />
     <ClInclude Include="detail\hardware\esp\lcd\lcd.hpp" />
+    <ClInclude Include="detail\hardware\esp\ldr.h" />
+    <ClInclude Include="detail\hardware\esp\ldr.hpp" />
     <ClInclude Include="detail\hardware\esp\temperature.h" />
     <ClInclude Include="detail\hardware.hpp" />
     <ClInclude Include="detail\hardware\windows.h" />

@@ -13,17 +13,23 @@ public:
 
 public:
 
-	keyboard()
+	keyboard(ngs::embedded::io::pin_t up, ngs::embedded::io::pin_t down, ngs::embedded::io::pin_t select, ngs::embedded::io::pin_t back)
 	{
 		ngs::os_api::esp::io::gpio_config config{};
 		config.set_io(ngs::embedded::io::gpio::modes::io::input);
 		config.set_pull(ngs::embedded::io::gpio::modes::pull::down);
-		_up.open(IA_CONFIG_KEYBOARD_UP, config);
-		_down.open(IA_CONFIG_KEYBOARD_DOWN, config);
-		_select.open(IA_CONFIG_KEYBOARD_SELECT, config);
-		_back.open(IA_CONFIG_KEYBOARD_BACK, config);
+		_up.open(up, config);
+		_down.open(down, config);
+		_select.open(select, config);
+		_back.open(back, config);
 	}
-	virtual ~keyboard() override = default;
+	virtual ~keyboard() override
+	{
+		_up.close();
+		_down.close();
+		_select.close();
+		_back.close();
+	}
 
 	virtual bool is_pressed(api::hw::keyboard_code code) const override
 	{
@@ -37,10 +43,11 @@ public:
 			return _back.get();
 		case api::hw::keyboard_code::select:
 			return _select.get();
+		default:
+			break;
 		}
 		return false;
 	}
-
 private:
 	api::gpio _up{};
 	api::gpio _down{};

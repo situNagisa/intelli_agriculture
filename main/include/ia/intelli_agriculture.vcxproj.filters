@@ -24,7 +24,7 @@
     <ClInclude Include="api\hardware\sensor\humidity.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="api\hardware\sensor\light.h">
+    <ClInclude Include="api\hardware\sensor\photosensor.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="api\hardware\sensor\temperature.h">
@@ -145,6 +145,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="detail\hardware\esp\keyboard.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\dht.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\dht.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="api\hardware\flashlight.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\ldr.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\ldr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

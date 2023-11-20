@@ -48,4 +48,8 @@ IA_DETAIL_BEGIN
 #	define IA_CONFIG_KEYBOARD_BACK 7
 #endif
 
+#if !defined(IA_CONFIG_LDR_OD)
+#	define IA_CONFIG_LDR_OD 3
+#endif
+
 IA_DETAIL_END

@@ -2,4 +2,4 @@
 
 #include "./sensor/temperature.h"
 #include "./sensor/humidity.h"
-#include "./sensor/light.h"
+#include "./sensor/photosensor.h"

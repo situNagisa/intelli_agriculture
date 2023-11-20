@@ -174,11 +174,11 @@ NGS_HPP_INLINE void lcd::_initialize()
 
 	auto&& lcd_init_cmds = st_init_cmds;
 
-	for (auto&& [command, data, flag] : lcd_init_cmds)
+	for (auto&& [command, param, flag] : lcd_init_cmds)
 	{
 		if (flag == 0xFF)break;
 		cmd(static_cast<st_command>(command));
-		data(data, flag & 0x1F);
+		data(param, flag & 0x1F);
 		if (flag & 0x80) {
 			std::this_thread::sleep_for(100ms);
 		}

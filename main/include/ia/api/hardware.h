@@ -3,3 +3,4 @@
 #include "./hardware/sensor.h"
 #include "./hardware/screen.h"
 #include "./hardware/keyboard.h"
+#include "./hardware/flashlight.h"

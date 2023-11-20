@@ -6,9 +6,9 @@ IA_HW_SENSOR_BEGIN
 
 using lumen_t = float;
 
-struct NGS_DLL_API light
+struct NGS_DLL_API photosensor
 {
-	virtual ~light() = default;
+	virtual ~photosensor() = default;
 
 	virtual lumen_t get() const { return {}; }
 };
