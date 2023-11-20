@@ -52,4 +52,8 @@ IA_DETAIL_BEGIN
 #	define IA_CONFIG_LDR_OD 3
 #endif
 
+#if !defined(IA_CONFIG_DHT)
+#	define IA_CONFIG_DHT 15
+#endif
+
 IA_DETAIL_END

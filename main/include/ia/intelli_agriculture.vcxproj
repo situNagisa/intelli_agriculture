@@ -42,8 +42,8 @@
     <ClInclude Include="detail\hardware\esp.hpp" />
     <ClInclude Include="detail\hardware\esp\config.h" />
     <ClInclude Include="detail\hardware\esp\defined.h" />
-    <ClInclude Include="detail\hardware\esp\dht.h" />
-    <ClInclude Include="detail\hardware\esp\dht.hpp" />
+    <ClInclude Include="detail\hardware\esp\dht11\dht.h" />
+    <ClInclude Include="detail\hardware\esp\dht11\dht.hpp" />
     <ClInclude Include="detail\hardware\esp\factory.hpp" />
     <ClInclude Include="detail\hardware\esp\keyboard.h" />
     <ClInclude Include="detail\hardware\esp\lcd.h" />
@@ -51,9 +51,6 @@
     <ClInclude Include="detail\hardware\esp\lcd\command.h" />
     <ClInclude Include="detail\hardware\esp\lcd\lcd.h" />
     <ClInclude Include="detail\hardware\esp\lcd\lcd.hpp" />
-    <ClInclude Include="detail\hardware\esp\ldr.h" />
-    <ClInclude Include="detail\hardware\esp\ldr.hpp" />
-    <ClInclude Include="detail\hardware\esp\temperature.h" />
     <ClInclude Include="detail\hardware.hpp" />
     <ClInclude Include="detail\hardware\windows.h" />
     <ClInclude Include="detail\factory.h" />
@@ -111,21 +108,29 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
     <Import Project="C:\configure\visual_studio\ESPIDF.props" />
+    <Import Project="..\..\..\..\visual_studio\ESPIDF.props" />
+    <Import Project="..\..\..\..\visual_studio\NagisaBase.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
     <Import Project="C:\configure\visual_studio\ESPIDF.props" />
+    <Import Project="..\..\..\..\visual_studio\NagisaBase.props" />
+    <Import Project="..\..\..\..\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
     <Import Project="C:\configure\visual_studio\ESPIDF.props" />
+    <Import Project="..\..\..\..\visual_studio\NagisaBase.props" />
+    <Import Project="..\..\..\..\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="C:\configure\visual_studio\NagisaBase.props" />
     <Import Project="C:\configure\visual_studio\ESPIDF.props" />
+    <Import Project="..\..\..\..\visual_studio\NagisaBase.props" />
+    <Import Project="..\..\..\..\visual_studio\ESPIDF.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
