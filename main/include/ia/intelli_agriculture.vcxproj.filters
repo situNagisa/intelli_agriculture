@@ -63,7 +63,7 @@
     <ClInclude Include="ia.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ia_main.hpp">
+    <ClInclude Include="test.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="detail\defined.h">
@@ -94,9 +94,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="detail\hardware\esp\defined.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="detail\hardware\esp\temperature.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="api\embedded\defined.h">
@@ -147,19 +144,43 @@
     <ClInclude Include="detail\hardware\esp\keyboard.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="api\hardware\flashlight.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\dht11\dht.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\dht11\dht.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\motor.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="detail\hardware\esp\ldr.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="detail\hardware\esp\ldr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\dht.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\dht.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="api\hardware\fan.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="api\hardware\temperature_controller.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\flashlight.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\temperature_controller.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ia_main.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

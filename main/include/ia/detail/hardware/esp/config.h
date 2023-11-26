@@ -56,4 +56,16 @@ IA_DETAIL_BEGIN
 #	define IA_CONFIG_DHT 15
 #endif
 
+#if !defined(IA_CONFIG_FLASHLIGHT)
+#	define IA_CONFIG_FLASHLIGHT 16
+#endif
+
+#if !defined(IA_CONFIG_MOTOR)
+#	define IA_CONFIG_MOTOR 17
+#endif
+
+#if !defined(IA_CONFIG_TEMPERATURE_CONTROLLER)
+#	define IA_CONFIG_TEMPERATURE_CONTROLLER 18
+#endif
+
 IA_DETAIL_END
