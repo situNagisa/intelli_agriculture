@@ -19,7 +19,7 @@ public:
 	{
 		NGS_LOGL(info, "flush");
 	}
-	virtual void show_picture(ngs::void_ptr_cst buffer, size_t x, size_t y, size_t width, size_t height) override
+	virtual void show_picture(ngs::void_ptr_cst buffer) override
 	{
 		NGS_LOGL(info, "show picture");
 	}

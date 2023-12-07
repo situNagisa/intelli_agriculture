@@ -4,53 +4,59 @@
 #include "./ia.h"
 #include "./ia.hpp"
 
-void test_screen()
-{
-	auto screen = ia::detail::factory::create_screen();
-	ngs::uint16_ptr demo_buffer = new ngs::uint16[128ull * 160]();// create_demo_buffer();
-	std::memset(demo_buffer, 0x80, 128ull * 160 * 2ull);
-	screen->show_picture(demo_buffer, 0, 0, 128, 160);
-}
-
-void test_keyboard()
-{
-	auto keyboard = ia::detail::factory::create_keyboard();
-	auto print_key = [&kb = *keyboard](ia::api::hw::keyboard_code code)
-		{
-			if (!kb.is_pressed(code))
-				return;
-			//if (kb._state[static_cast<size_t>(code)] != kb.threshold)
-			//	NGS_LOGFL(info, "key %d is pressed, state = %d", code, kb._state[static_cast<size_t>(code)]);
-			if (kb.is_raised(code))
-				NGS_LOGFL(info, "raised!");
-		};
-	while (true)
-	{
-		keyboard->update();
-		print_key(ia::api::hw::keyboard_code::up);
-		print_key(ia::api::hw::keyboard_code::down);
-		print_key(ia::api::hw::keyboard_code::select);
-		print_key(ia::api::hw::keyboard_code::back);
-	}
-}
-
-void test_photosensor()
-{
-	auto photosensor = ia::detail::factory::create_photosensor();
-	bool is_dark = false;
-	while (true)
-	{
-		if (photosensor->get() != is_dark)
-		{
-			is_dark = photosensor->get();
-			NGS_LOGFL(info, "photosensor get = %d", is_dark);
-		}
-	}
-}
-
 NGS_HPP_INLINE void ia_main()
 {
-	test_screen();
-	test_photosensor();
+	using namespace std::chrono_literals;
+	//sensor
+	std::unique_ptr<ia::api::hw::sensors::temperature> temperature(ia::detail::factory::create_temperature());
+	//std::unique_ptr<ia::api::hw::sensors::humidity> humidity(ia::detail::factory::create_humidity());
+	std::unique_ptr<ia::api::hw::sensors::photosensor> light(ia::detail::factory::create_photosensor());
 
+	std::unique_ptr<ia::api::hw::fan> fan(ia::detail::factory::create_motor());
+	std::unique_ptr<ia::api::hw::flashlight> led(ia::detail::factory::create_flashlight());
+	std::unique_ptr<ia::api::hw::temperature_controller> temperature_controller(ia::detail::factory::create_temperature_controller());
+
+	std::unique_ptr<ia::api::hw::screen> screen(ia::detail::factory::create_screen());
+
+	ia::core::framebuffer framebuffer(IA_CONFIG_LCD_WIDTH, IA_CONFIG_LCD_HEIGHT);
+	ia::core::renderer renderer(framebuffer);
+
+	ia::core::text_field text_field{};
+	text_field.gap.x = 3;
+	text_field.transform.position.x = 50;
+	text_field.transform.position.y = 50;
+	text_field.set_text("hello");
+
+	while (true)
+	{
+		//sensor
+		auto&& temperature_value = temperature->get();
+		//ia::api::hw::sensors::humidity::value_type humidity_value = humidity->get();
+		auto&& light_value = light->get();
+
+		if (temperature_value < 20)
+		{
+			temperature_controller->on();
+		}
+		else
+		{
+			temperature_controller->off();
+		}
+
+		if (light_value < 100)
+		{
+			led->on();
+		}
+		else
+		{
+			led->off();
+		}
+		renderer.flush(ia::color_constant_t::black);
+
+		renderer.render(text_field);
+
+		screen->show_picture(framebuffer.data().data());
+
+		while (true);
+	}
 }

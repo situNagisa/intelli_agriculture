@@ -10,6 +10,10 @@ struct NGS_DLL_API factory {
 	static lcd* create_screen();
 	static keyboard* create_keyboard();
 	static ldr* create_photosensor();
+	static dht* create_temperature();
+	static flashlight* create_flashlight();
+	static motor* create_motor();
+	static temperature_controller* create_temperature_controller();
 #else
 	static screen* create_screen();
 	static keyboard* create_keyboard();

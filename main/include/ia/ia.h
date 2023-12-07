@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "./api.h"
+#include "./core.h"
 
 void ia_main();
 
