@@ -47,7 +47,7 @@ NGS_HPP_INLINE void ia_main()
 			temperature_controller->off();
 		}
 
-		if (h > 0.4)
+		if (h > 0.5)
 		{
 			fan->on();
 		}

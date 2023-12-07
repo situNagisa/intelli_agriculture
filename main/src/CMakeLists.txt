@@ -4,10 +4,9 @@ option(build_as_component "for esp idf build" FALSE)
 set(main_src)
 file(GLOB_RECURSE main_src ${main_src} ${PROJECT_SOURCE_DIR}/include/*.h)
 
-set(nagisa_include $ENV{NAGISA_DIR}/include CACHE PATH "")
-set(extern_include $ENV{NAGISA_ROOT}/include CACHE PATH "")
+set(nagisa_include $ENV{NGS_ROOT}/include CACHE PATH "")
 
-set(ia_include_dir ${nagisa_include} ${extern_include} ${PROJECT_SOURCE_DIR}/include)
+set(ia_include_dir ${nagisa_include} ${PROJECT_SOURCE_DIR}/include)
 set(ia_source ${main_src})
 
 if(NOT build_as_component)
