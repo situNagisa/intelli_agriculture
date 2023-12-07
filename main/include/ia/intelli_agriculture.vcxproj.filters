@@ -96,9 +96,6 @@
     <ClInclude Include="detail\hardware\esp\defined.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\temperature.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="api\embedded\defined.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -147,19 +144,13 @@
     <ClInclude Include="detail\hardware\esp\keyboard.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="api\hardware\flashlight.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\ldr.hpp">
+    <ClInclude Include="detail\hardware\esp\dht11\dht.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\ldr.h">
+    <ClInclude Include="detail\hardware\esp\dht11\dht.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,101 +12,88 @@ NGS_HPP_INLINE dht::dht(ngs::embedded::io::pin_t gpio_num)
 	NGS_ASSERT(_gpio.open(gpio_num, config));
 }
 
-NGS_HPP_INLINE dht::~dht()
-{
-		if (_gpio.is_opened())
-			_gpio.close();
+NGS_HPP_INLINE dht::_aht10_write_init() {
+
+	using namespace std::chrono_literals;
+	
+	aht10.open(1, 2, 3);
+	aht10.set_ack(::ngs::embedded::io::bus::i2c::modes::ack::any);
+
+	::ngs::byte cmd = 0X70;
+	aht10.write(&cmd, 1);
+
+	::ngs::byte cmd1 = 0XE1;
+	aht10.write(&cmd1, 1);
+
+	::ngs::byte cmd2 = 0X08;
+	aht10.write(&cmd2, 1);
+
+	::ngs::byte cmd3 = 0X00;
+	aht10.write(&cmd3, 1);
+
+	aht10.close();
+	std::this_thread::sleep_for(40ms);
 }
 
-NGS_HPP_INLINE void dht::_gpio_reset()
-{
+NGS_HPP_INLINE dht::_aht10_write_reset() {
+
 	using namespace std::chrono_literals;
 
-	_gpio_out();
-	_gpio.low();
+	aht10.open(1, 2, 3);
+	aht10.set_ack(::ngs::embedded::io::bus::i2c::modes::ack::any);
+
+	::ngs::byte cmd1 = 0X70;
+	aht10.write(&cmd1, 1);
+
+	::ngs::byte cmd2 = 0XBA;
+	aht10.write(&cmd2, 1);
+
+	aht10.close();
 	std::this_thread::sleep_for(20ms);
-	_gpio.high();
-	std::this_thread::sleep_for(30us);
-
 }
 
-NGS_HPP_INLINE ngs::byte dht::_initialize()
-{
-	//
-	_gpio_reset();
-	return _check();
-}
-
-NGS_HPP_INLINE ngs::byte dht::_check()
-{
+NGS_HPP_INLINE std::pair<ngs::float32,ngs::float32> dht::_aht10_read_humi_temp() {
 	using namespace std::chrono_literals;
+	extern ngs::byte ACK;
 
-	ngs::byte retry = 0;
-	_gpio_in();
-	while (_gpio.get() && retry < 100)
-	{
-		retry++;
-		std::this_thread::sleep_for(1us);
-		if (retry >= 100)return 1;
-		return 0;
-	}
-}
+	aht10.open(1, 2, 3);
+	aht10.set_ack(::ngs::embedded::io::bus::i2c::modes::ack::any);
 
-NGS_HPP_INLINE ngs::byte dht::_read_bit()
-{
-	using namespace std::chrono_literals;
+	::ngs::byte cmd1 = 0X70;
+	aht10.write(&cmd1, 1);
 
-	ngs::byte retry = 0;
-	_gpio_in();
-	while (_gpio.get() && retry < 100)
-	{
-		retry++;
-		std::this_thread::sleep_for(1us);
-	}
-	ngs::byte retry = 0;
-	while (!_gpio.get() && retry < 100)
-	{
-		retry++;
-		std::this_thread::sleep_for(1us);
-	}
-	std::this_thread::sleep_for(40us);
-	if (_gpio.get())
-		return 1;
-	else
-		return 0;
-}
+	::ngs::byte cmd2 = 0XAC;
+	aht10.write(&cmd2, 1);
 
-NGS_HPP_INLINE ngs::byte dht::_read_byte()
-{
-	using namespace std::chrono_literals;
-	ngs::byte i, dat;
-	dat = 0;
-	for (i = 0; i < 8; i++)
-	{
-		dat <<= 1;
-		dat |= _read_bit();
-	}
-	return dat;
-}
+	::ngs::byte cmd3 = 0X33;
+	aht10.write(&cmd3, 1);
 
-NGS_HPP_INLINE std::pair<ngs::float32,ngs::float32> dht::_read_data()
-{
-	ngs::byte buf[5];
-	ngs::byte i;
-	dht::_gpio_reset();
-	if (dht::_check() == 0)
-	{
-		for (i = 0; i < 5; i++)
-		{
-			buf[i] = dht::_read_byte();
-		}
-		if ((buf[0] + buf[1] + buf[2] + buf[3]) == buf[4])
-		{
-			return { static_cast<ngs::float32>(buf[2]),static_cast<ngs::float32>(buf[0]) };
-		}
-		return { static_cast<ngs::float32>(0),static_cast<ngs::float32>(0) };
-	}
+	::ngs::byte cmd4 = 0X00;
+	aht10.write(&cmd4, 1);
+	
+	aht10.close();
+	std::this_thread::sleep_for(80ms);
+
+	aht10.open(1, 2, 3);
+
+	::ngs::byte cmd1 = 0X71;
+	aht10.write(&cmd1, 1);
+	::ngs::byte cmd2 = 0000;
+	ACK = aht10.read(&cmd2,1);
+	
+	aht10.set_ack(::ngs::embedded::io::bus::i2c::modes::ack::last_no_ack);
+	::ngs::byte data[4]{};
+	aht10.read(data, 4);
+	aht10.close();
+
+	::ngs::byte humi, temp;
+	humi = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4);
+	temp = ((data[2] & 0X0F) << 16) | (data[3] << 8) | (data[4]);
+
 	return { static_cast<ngs::float32>(0),static_cast<ngs::float32>(0) };
+
+	aht10.close();
+
 }
 
 IA_DETAIL_END

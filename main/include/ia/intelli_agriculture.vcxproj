@@ -110,6 +110,7 @@
     <Import Project="C:\configure\visual_studio\ESPIDF.props" />
     <Import Project="..\..\..\..\visual_studio\ESPIDF.props" />
     <Import Project="..\..\..\..\visual_studio\NagisaBase.props" />
+    <Import Project="..\..\..\..\visual_studio\NagisaLib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

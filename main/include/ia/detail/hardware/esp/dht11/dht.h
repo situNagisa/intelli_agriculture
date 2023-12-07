@@ -5,26 +5,16 @@ IA_DETAIL_BEGIN
 
 struct dht : api::hw::sensors::temperature
 {
-	dht(ngs::embedded::io::pin_t gpio_num);
-	virtual ~dht() override;
+
+	ia::api::i2c_master aht10{};
 
 	virtual api::hw::sensors::temperature_t get()  override;
 
 private:
-	void _gpio_out();
-	void _gpio_in();
-	void _gpio_reset();
-	ngs::byte _check();
+	void _aht10_write_init();
+	void _aht10_write_reset();
+	ngs::byte _aht10_read_humi_temp();
 
-	ngs::byte _initialize();
-
-	ngs::byte _check();
-
-	ngs::byte _read_bit();
-
-	ngs::byte _read_byte();
-
-	std::pair<ngs::float32,ngs::float32> _read_data();
 private:
 	api::gpio _gpio{};
 };
