@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "./esp/dht.h"
+#include "./esp/aht.h"
 #include "./esp/lcd.h"
 #include "./esp/keyboard.h"
 #include "./esp/ldr.h"

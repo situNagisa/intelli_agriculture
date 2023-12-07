@@ -52,10 +52,10 @@
     <ClInclude Include="detail\hardware\esp.hpp" />
     <ClInclude Include="detail\hardware\esp\config.h" />
     <ClInclude Include="detail\hardware\esp\defined.h" />
-    <ClInclude Include="detail\hardware\esp\dht.h" />
-    <ClInclude Include="detail\hardware\esp\dht.hpp" />
-    <ClInclude Include="detail\hardware\esp\dht11\dht.h" />
-    <ClInclude Include="detail\hardware\esp\dht11\dht.hpp" />
+    <ClInclude Include="detail\hardware\esp\aht.h" />
+    <ClInclude Include="detail\hardware\esp\aht.hpp" />
+    <ClInclude Include="detail\hardware\esp\aht\aht.h" />
+    <ClInclude Include="detail\hardware\esp\aht\aht.hpp" />
     <ClInclude Include="detail\hardware\esp\factory.hpp" />
     <ClInclude Include="detail\hardware\esp\flashlight.h" />
     <ClInclude Include="detail\hardware\esp\keyboard.h" />

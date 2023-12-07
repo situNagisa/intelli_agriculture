@@ -147,10 +147,10 @@
     <ClInclude Include="api\hardware\flashlight.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht11\dht.h">
+    <ClInclude Include="detail\hardware\esp\aht\aht.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht11\dht.hpp">
+    <ClInclude Include="detail\hardware\esp\aht\aht.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="detail\hardware\esp\motor.h">
@@ -162,10 +162,10 @@
     <ClInclude Include="detail\hardware\esp\dht11\dht.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht.h">
+    <ClInclude Include="detail\hardware\esp\aht.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="detail\hardware\esp\dht.hpp">
+    <ClInclude Include="detail\hardware\esp\aht.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="api\hardware\fan.h">
@@ -208,6 +208,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="core.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="detail\hardware\esp\ldr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

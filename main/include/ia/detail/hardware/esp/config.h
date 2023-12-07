@@ -56,8 +56,12 @@ IA_DETAIL_BEGIN
 #	define IA_CONFIG_LDR_OD 3
 #endif
 
-#if !defined(IA_CONFIG_DHT)
-#	define IA_CONFIG_DHT 15
+#if !defined(IA_CONFIG_AHT_SDA)
+#	define IA_CONFIG_AHT_SDA 15
+#endif
+
+#if !defined(IA_CONFIG_AHT_SCL)
+#	define IA_CONFIG_AHT_SCL 14
 #endif
 
 #if !defined(IA_CONFIG_FLASHLIGHT)

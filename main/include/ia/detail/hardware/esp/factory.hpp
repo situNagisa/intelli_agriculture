@@ -9,6 +9,7 @@
 #include "./flashlight.h"
 #include "./ldr.h"
 #include "./motor.h"
+#include "./aht.h"
 #include "./temperature_controller.h"
 
 IA_DETAIL_BEGIN
@@ -33,9 +34,9 @@ NGS_HPP_INLINE ldr* factory::create_photosensor()
 }
 
 
-NGS_HPP_INLINE dht* factory::create_temperature()
+NGS_HPP_INLINE aht* factory::create_temperature()
 {
-	return new dht(IA_CONFIG_DHT);
+	return new aht(IA_CONFIG_AHT_SDA, IA_CONFIG_AHT_SCL, 0x70);
 }
 
 NGS_HPP_INLINE flashlight* factory::create_flashlight()
