@@ -25,11 +25,15 @@ IA_DETAIL_BEGIN
 #endif
 
 #if !defined(IA_CONFIG_LCD_WIDTH)
-#	define IA_CONFIG_LCD_WIDTH 128
+#	define IA_CONFIG_LCD_WIDTH 160
 #endif
 
 #if !defined(IA_CONFIG_LCD_HEIGHT)
-#	define IA_CONFIG_LCD_HEIGHT 160
+#	define IA_CONFIG_LCD_HEIGHT 128
+#endif
+
+#if !defined(IA_CONFIG_LCD_PAGES)
+#	define IA_CONFIG_LCD_PAGES 16
 #endif
 
 #if !defined(IA_CONFIG_KEYBOARD_UP)

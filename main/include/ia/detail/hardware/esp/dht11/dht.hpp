@@ -40,6 +40,7 @@ NGS_HPP_INLINE dht::~dht()
 
 NGS_HPP_INLINE api::hw::sensors::temperature_t dht::get()
 {
+	return {};
 	auto&& [h, t] = _read_data();
 
 	return static_cast<api::hw::sensors::temperature_t>(t);

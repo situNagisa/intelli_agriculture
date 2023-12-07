@@ -16,6 +16,17 @@ NGS_HPP_INLINE void ia_main()
 	std::unique_ptr<ia::api::hw::flashlight> led(ia::detail::factory::create_flashlight());
 	std::unique_ptr<ia::api::hw::temperature_controller> temperature_controller(ia::detail::factory::create_temperature_controller());
 
+	std::unique_ptr<ia::api::hw::screen> screen(ia::detail::factory::create_screen());
+
+	ia::core::framebuffer framebuffer(IA_CONFIG_LCD_WIDTH, IA_CONFIG_LCD_HEIGHT);
+	ia::core::renderer renderer(framebuffer);
+
+	ia::core::text_field text_field{};
+	text_field.gap.x = 3;
+	text_field.transform.position.x = 50;
+	text_field.transform.position.y = 50;
+	text_field.set_text("hello");
+
 	while (true)
 	{
 		//sensor
@@ -40,7 +51,12 @@ NGS_HPP_INLINE void ia_main()
 		{
 			led->off();
 		}
+		renderer.flush(ia::color_constant_t::black);
 
-		std::this_thread::sleep_for(1s);
+		renderer.render(text_field);
+
+		screen->show_picture(framebuffer.data().data());
+
+		while (true);
 	}
 }

@@ -183,6 +183,33 @@
     <ClInclude Include="ia_main.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="core\font\font.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\font\text.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\defined.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\font\defined.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\framebuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\font.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\render.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\transformer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
