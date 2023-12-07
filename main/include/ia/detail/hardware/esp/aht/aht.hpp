@@ -4,14 +4,14 @@
 
 IA_DETAIL_BEGIN
 
-NGS_HPP_INLINE aht::aht(::ngs::embedded::io::pin_t sda, ::ngs::embedded::io::pin_t scl, ::ngs::embedded::io::bus::i2c::modes::address_t address)
+NGS_HPP_INLINE aht::aht(::ngs::embedded::io::pin_t sda, ::ngs::embedded::io::pin_t scl, ::ngs::embedded::io::i2c::modes::address_t address)
 {
 	using namespace std::chrono_literals;
 
 	std::this_thread::sleep_for(20ms);
 
 	_master.open(sda, scl, address);
-	_master.set_ack(::ngs::embedded::io::bus::i2c::modes::ack::any);
+	_master.set_ack(::ngs::embedded::io::i2c::modes::ack::any);
 
 	_master.write(0xA8, 0x00, 0x00);
 	std::this_thread::sleep_for(300ms);
@@ -35,9 +35,9 @@ NGS_HPP_INLINE::std::pair<float, float> aht::_read_data()
 
 	_master.write(0xAC, 0x00, 0x00);
 	::ngs::byte data[6]{};
-	_master.set_ack(ngs::embedded::io::bus::i2c::modes::ack::last_no_ack);
+	_master.set_ack(ngs::embedded::io::i2c::modes::ack::last_no_ack);
 	_master.read(data);
-	_master.set_ack(ngs::embedded::io::bus::i2c::modes::ack::any);
+	_master.set_ack(ngs::embedded::io::i2c::modes::ack::any);
 
 	float humidity =
 		static_cast<::ngs::float32>(static_cast<::ngs::uint32>((data[1] << 12) | (data[2] << 4) | (data[3] & 0xF0))) *

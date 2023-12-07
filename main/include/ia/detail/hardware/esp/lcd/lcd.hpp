@@ -77,8 +77,8 @@ NGS_HPP_INLINE lcd::lcd(
 		NGS_LOGL(info, "spi bus opened successfully!");
 	}
 	{
-		device.set_polarity(ngs::embedded::io::bus::spi::modes::polarity::low);
-		device.set_phase(ngs::embedded::io::bus::spi::modes::phase::first);
+		device.set_polarity(ngs::embedded::io::spi::modes::polarity::low);
+		device.set_phase(ngs::embedded::io::spi::modes::phase::first);
 		device.set_cs(cs);
 		device.pre_cb = pre_transfer_callback;
 		device.queue_size = 7;
