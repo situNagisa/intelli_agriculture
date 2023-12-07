@@ -52,7 +52,16 @@ NGS_HPP_GLOBAL_STATIC void pre_transfer_callback(spi_transaction_t* t)
 	//NGS_LOGFL(debug, "mode = %d", data.mode);
 }
 
-NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pin_t dc_, api::pin_t rst_, size_t width, size_t height)
+NGS_HPP_INLINE lcd::lcd(
+	api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pin_t dc_, api::pin_t rst_,
+	size_t width, size_t height,
+	size_t pages
+)
+	: page{
+		.lines = height / pages,
+		.width = width,
+		.height = height
+	}
 {
 	{
 		spi_bus_config_t config{
@@ -61,7 +70,7 @@ NGS_HPP_INLINE lcd::lcd(api::pin_t sclk, api::pin_t mosi, api::pin_t cs, api::pi
 			.sclk_io_num = sclk,
 			.quadwp_io_num = ngs::embedded::io::invalid_pin,
 			.quadhd_io_num = ngs::embedded::io::invalid_pin,
-			.max_transfer_sz = static_cast<int>(width * height * 2) + 8
+			.max_transfer_sz = static_cast<int>(page.page_size() * 2) + 8
 		};
 
 		NGS_ASSERT(master.open(config));
@@ -104,29 +113,46 @@ NGS_HPP_INLINE void lcd::flush()
 	cmd(st_command::reset, false);
 }
 
-NGS_HPP_INLINE void lcd::show_picture(ngs::void_ptr_cst buffer, size_t x, size_t y, size_t width, size_t height)
+NGS_HPP_INLINE void lcd::show_picture(ngs::void_ptr_cst buffer)
 {
-	using namespace std::chrono_literals;
+	for (size_t i = 0; i < page.block_size(); i++)
+	{
+		ngs::byte tx_data[4]{};
+		api::spi_master::transaction_type ts[6]{};
 
-	ngs::byte tx_data[4]{};
-	auto set_range = [&tx_data](ngs::uint16 start, ngs::uint16 end)
+		for (bool cmd = true; auto && t : ts)
 		{
-			tx_data[0] = start >> ngs::bits::bit_per_byte;
-			tx_data[1] = start & 0xFF;
-			tx_data[2] = end >> ngs::bits::bit_per_byte;
-			tx_data[3] = end & 0xFF;
-		};
+			t.user = cmd ? &_cmd : &_data;
+			cmd = !cmd;
+		}
 
-	//master.lock();
-	cmd(st_command::column_address_set);
-	set_range(x, x + width);
-	data(tx_data, 4);
-	cmd(st_command::page_address_set);
-	set_range(y, y + height);
-	data(tx_data, 4);
-	cmd(st_command::memory_write);
-	data(buffer, width * height * 2);
-	//master.unlock();
+		auto set_range = [&tx_data](ngs::uint16 start, ngs::uint16 end)
+			{
+				tx_data[0] = start >> ngs::bits::bit_per_byte;
+				tx_data[1] = start & 0xFF;
+				tx_data[2] = end >> ngs::bits::bit_per_byte;
+				tx_data[3] = end & 0xFF;
+			};
+
+		const auto range = page.range(i);
+
+		ts[0].set_tx_data(st_command::column_address_set);
+		set_range(range.x, range.x + range.width);
+		ts[1].set_tx_data(tx_data);
+
+		ts[2].set_tx_data(st_command::page_address_set);
+		set_range(range.y, range.y + range.height);
+		ts[3].set_tx_data(tx_data);
+
+		ts[4].set_tx_data(st_command::memory_write);
+		ts[5].set_tx_buffer(buffer + i * page.page_size() * 2, page.page_size() * 2);
+
+		for (auto&& t : ts)
+			master.queue(t);
+
+		for (auto&& t : ts)
+			master.wait_queue();
+	}
 }
 
 NGS_HPP_INLINE void lcd::reset()
@@ -163,6 +189,38 @@ NGS_HPP_INLINE void lcd::data(ngs::void_ptr_cst data, size_t size)
 	master.polling_transmit(data, size, &_data);
 }
 
+NGS_HPP_INLINE void lcd::set_draw_range(size_t x, size_t y, size_t width, size_t height)
+{
+	ngs::byte tx_data[4]{};
+	auto set_range = [&tx_data](ngs::uint16 start, ngs::uint16 end)
+		{
+			tx_data[0] = start >> ngs::bits::bit_per_byte;
+			tx_data[1] = start & 0xFF;
+			tx_data[2] = end >> ngs::bits::bit_per_byte;
+			tx_data[3] = end & 0xFF;
+		};
+
+	cmd(st_command::column_address_set);
+	set_range(x, x + width);
+	data(tx_data, 4);
+	cmd(st_command::page_address_set);
+	set_range(y, y + height);
+	data(tx_data, 4);
+}
+
+NGS_HPP_INLINE void lcd::write_memory(ngs::void_ptr_cst data, size_t size)
+{
+	cmd(st_command::memory_write);
+	//self_type::data(data, size);
+
+	api::spi_master::transaction_type t{};
+	t.set_tx_buffer(data, size);
+	t.user = &_data;
+
+	master.queue(t);
+	master.wait_queue();
+}
+
 NGS_HPP_INLINE void lcd::_initialize()
 {
 	using namespace std::chrono_literals;
@@ -185,8 +243,6 @@ NGS_HPP_INLINE void lcd::_initialize()
 	}
 
 	NGS_LOGL(info, "lcd initalized successfully!");
-
-
 }
 
 NGS_HPP_INLINE void lcd::_read_data(st_command command, ngs::void_ptr buffer, size_t size)

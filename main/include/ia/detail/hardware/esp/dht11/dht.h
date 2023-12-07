@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include"../defined.h"
 
 IA_DETAIL_BEGIN

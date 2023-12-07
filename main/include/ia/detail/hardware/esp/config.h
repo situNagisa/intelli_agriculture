@@ -25,11 +25,15 @@ IA_DETAIL_BEGIN
 #endif
 
 #if !defined(IA_CONFIG_LCD_WIDTH)
-#	define IA_CONFIG_LCD_WIDTH 128
+#	define IA_CONFIG_LCD_WIDTH 160
 #endif
 
 #if !defined(IA_CONFIG_LCD_HEIGHT)
-#	define IA_CONFIG_LCD_HEIGHT 160
+#	define IA_CONFIG_LCD_HEIGHT 128
+#endif
+
+#if !defined(IA_CONFIG_LCD_PAGES)
+#	define IA_CONFIG_LCD_PAGES 16
 #endif
 
 #if !defined(IA_CONFIG_KEYBOARD_UP)
@@ -54,6 +58,18 @@ IA_DETAIL_BEGIN
 
 #if !defined(IA_CONFIG_DHT)
 #	define IA_CONFIG_DHT 15
+#endif
+
+#if !defined(IA_CONFIG_FLASHLIGHT)
+#	define IA_CONFIG_FLASHLIGHT 16
+#endif
+
+#if !defined(IA_CONFIG_MOTOR)
+#	define IA_CONFIG_MOTOR 17
+#endif
+
+#if !defined(IA_CONFIG_TEMPERATURE_CONTROLLER)
+#	define IA_CONFIG_TEMPERATURE_CONTROLLER 18
 #endif
 
 IA_DETAIL_END

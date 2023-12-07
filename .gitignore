@@ -7,7 +7,9 @@
 /main/.vs
 /main/out
 /main/temp
+/main/bin
 
 /esp32/.vscode
 /esp32/build
 /esp32/_ReSharper.Caches
+*.filters

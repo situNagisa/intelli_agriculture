@@ -1,8 +1,26 @@
-#pragma once
+﻿#pragma once
 
 #include"./dht.h"
 
 IA_DETAIL_BEGIN
+
+using dht_clock_type = std::chrono::system_clock;
+
+template<class _Clock = dht_clock_type>
+NGS_HPP_INLINE bool _wait_for_pin_state_in_time(const api::gpio& gpio, bool state, typename _Clock::duration timeout)
+{
+	using namespace std::chrono_literals;
+	using clock = _Clock;
+
+	const auto start = clock::now();
+	while (clock::now() - start < timeout)
+	{
+		if (gpio.get() == state)
+			return true;
+	}
+
+	return false;
+}
 
 NGS_HPP_INLINE dht::dht(ngs::embedded::io::pin_t gpio_num)
 {
@@ -10,6 +28,8 @@ NGS_HPP_INLINE dht::dht(ngs::embedded::io::pin_t gpio_num)
 	config.set_io(ngs::embedded::io::gpio::modes::io::input_output);
 	config.set_pull(ngs::embedded::io::gpio::modes::pull::floating);
 	NGS_ASSERT(_gpio.open(gpio_num, config));
+
+	_initialize();
 }
 
 NGS_HPP_INLINE dht::_aht10_write_init() {
