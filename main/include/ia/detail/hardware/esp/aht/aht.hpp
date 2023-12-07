@@ -8,18 +8,15 @@ NGS_HPP_INLINE aht::aht(::ngs::embedded::io::pin_t sda, ::ngs::embedded::io::pin
 {
 	using namespace std::chrono_literals;
 
+	std::this_thread::sleep_for(20ms);
+
 	_master.open(sda, scl, address);
 	_master.set_ack(::ngs::embedded::io::bus::i2c::modes::ack::any);
 
-	::ngs::byte init_data[] = {
-		0x70,
-		0xE1,
-		0x08,
-		0x00
-	};
-	_master.write(init_data, ::std::extent_v<decltype(init_data)>);
-
-	std::this_thread::sleep_for(40ms);
+	_master.write(0xA8, 0x00, 0x00);
+	std::this_thread::sleep_for(300ms);
+	_master.write(0xE1, 0x08, 0x00);
+	std::this_thread::sleep_for(300ms);
 }
 
 NGS_HPP_INLINE aht::~aht()
@@ -29,51 +26,25 @@ NGS_HPP_INLINE aht::~aht()
 
 NGS_HPP_INLINE void aht::reset()
 {
-	using namespace std::chrono_literals;
 
-	::ngs::byte data[] = {
-		0x70,
-		0xE1,
-		0x08,
-		0x00
-	};
-	_master.write(data, ::std::extent_v<decltype(data)>);
-
-	std::this_thread::sleep_for(20ms);
 }
 
 NGS_HPP_INLINE::std::pair<float, float> aht::_read_data()
 {
 	using namespace std::chrono_literals;
 
-	{
-		::ngs::byte data[] = {
-			0x70,
-			0xAC,
-			0x33,
-			0x00,
-		};
-		_master.write(data, ::std::extent_v<decltype(data)>);
-	}
-	::ngs::byte data[5]{};
-	{
-		::ngs::byte start[] = {
-					0x71,
-		};
-		_master.write(start, ::std::extent_v<decltype(start)>);
-		_master.set_ack(ngs::embedded::io::bus::i2c::modes::ack::last_no_ack);
-		_master.read(data, ::std::extent_v<decltype(data)>);
-		_master.set_ack(ngs::embedded::io::bus::i2c::modes::ack::any);
-	}
+	_master.write(0xAC, 0x00, 0x00);
+	::ngs::byte data[6]{};
+	_master.set_ack(ngs::embedded::io::bus::i2c::modes::ack::last_no_ack);
+	_master.read(data);
+	_master.set_ack(ngs::embedded::io::bus::i2c::modes::ack::any);
 
 	float humidity =
-		static_cast<::ngs::float32>(static_cast<::ngs::uint32>((data[0] << 12) | (data[1] << 4) | (data[2] >> 4))) *
-		100.0f / (1024 * 1024) + 0.5f;
+		static_cast<::ngs::float32>(static_cast<::ngs::uint32>((data[1] << 12) | (data[2] << 4) | (data[3] & 0xF0))) *
+		1.0f / static_cast<::ngs::float32>(1ull << 20);
 	float temperature =
-		static_cast<::ngs::float32>(static_cast<::ngs::uint32>(((data[2] & 0x0F) << 16) | (data[3] << 8) | (data[4]))) *
-		2000.0f / (1024 * 1024) - 50.0f;
-	temperature /= 10.0f;
-	temperature -= 50;
+		static_cast<::ngs::float32>(static_cast<::ngs::uint32>(((data[3] & 0x0F) << 16) | (data[4] << 8) | (data[5]))) *
+		200.0f / static_cast<::ngs::float32>(1ull << 20) - 50.0f;
 
 	return { humidity,temperature };
 }

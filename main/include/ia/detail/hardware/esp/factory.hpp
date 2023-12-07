@@ -36,7 +36,7 @@ NGS_HPP_INLINE ldr* factory::create_photosensor()
 
 NGS_HPP_INLINE aht* factory::create_temperature()
 {
-	return new aht(IA_CONFIG_AHT_SDA, IA_CONFIG_AHT_SCL, 0x70);
+	return new aht(IA_CONFIG_AHT_SDA, IA_CONFIG_AHT_SCL, IA_CONFIG_AHT_ADDRESS);
 }
 
 NGS_HPP_INLINE flashlight* factory::create_flashlight()

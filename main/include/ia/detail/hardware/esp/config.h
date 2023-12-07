@@ -64,6 +64,10 @@ IA_DETAIL_BEGIN
 #	define IA_CONFIG_AHT_SCL 14
 #endif
 
+#if !defined(IA_CONFIG_AHT_ADDRESS)
+#	define IA_CONFIG_AHT_ADDRESS 0x38
+#endif
+
 #if !defined(IA_CONFIG_FLASHLIGHT)
 #	define IA_CONFIG_FLASHLIGHT 16
 #endif

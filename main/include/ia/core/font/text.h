@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "./defined.h"
 #include "./font.h"
@@ -20,6 +20,10 @@ public:
 	void set_text(::std::string_view text)
 	{
 		_text = text;
+		update();
+	}
+	void update()
+	{
 		transform.size.x = _text.size() * (default_font.size.width + gap.x) - gap.x;
 		transform.size.y = default_font.size.height;
 	}

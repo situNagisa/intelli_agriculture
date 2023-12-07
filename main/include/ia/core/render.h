@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "./defined.h"
 #include "./font.h"
@@ -21,7 +21,7 @@ struct renderer
 	void render(const text_field& text_field) const
 	{
 		auto&& transformer = text_field.transform;
-		NGS_LOGFL(debug, "%f,%f", transformer.size.x, transformer.size.y);
+		//NGS_LOGFL(debug, "%f,%f", transformer.size.x, transformer.size.y);
 		for (size_t y = 0; y < static_cast<size_t>(transformer.size.y); ++y)
 		{
 			for (size_t x = 0; x < static_cast<size_t>(transformer.size.x); ++x)

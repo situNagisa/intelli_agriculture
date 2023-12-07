@@ -8,7 +8,7 @@ NGS_HPP_INLINE void ia_main()
 {
 	using namespace std::chrono_literals;
 	//sensor
-	std::unique_ptr<ia::api::hw::sensors::temperature> temperature(ia::detail::factory::create_temperature());
+	std::unique_ptr<ia::detail::aht> temperature(ia::detail::factory::create_temperature());
 	//std::unique_ptr<ia::api::hw::sensors::humidity> humidity(ia::detail::factory::create_humidity());
 	std::unique_ptr<ia::api::hw::sensors::photosensor> light(ia::detail::factory::create_photosensor());
 
@@ -21,26 +21,39 @@ NGS_HPP_INLINE void ia_main()
 	ia::core::framebuffer framebuffer(IA_CONFIG_LCD_WIDTH, IA_CONFIG_LCD_HEIGHT);
 	ia::core::renderer renderer(framebuffer);
 
-	ia::core::text_field text_field{};
-	text_field.gap.x = 3;
-	text_field.transform.position.x = 50;
-	text_field.transform.position.y = 50;
-	text_field.set_text("hello");
+	ia::core::text_field t_text{};
+	t_text.gap.x = 3;
+	t_text.transform.position.x = 20;
+	t_text.transform.position.y = 20;
+	auto h_text = t_text;
+	h_text.transform.position.y += 20;
 
 	while (true)
 	{
 		//sensor
-		auto&& temperature_value = temperature->get();
+		auto [h, t] = temperature->get();
 		//ia::api::hw::sensors::humidity::value_type humidity_value = humidity->get();
-		auto&& light_value = light->get();
+		auto light_value = light->get();
 
-		if (temperature_value < 20)
+		t_text.set_text(::ngs::format("T: %2.2f", t));
+		h_text.set_text(::ngs::format("H: %0.2f", h));
+
+		if (t < 20)
 		{
 			temperature_controller->on();
 		}
 		else
 		{
 			temperature_controller->off();
+		}
+
+		if (h > 0.4)
+		{
+			fan->on();
+		}
+		else
+		{
+			fan->off();
 		}
 
 		if (light_value < 100)
@@ -53,10 +66,11 @@ NGS_HPP_INLINE void ia_main()
 		}
 		renderer.flush(ia::color_constant_t::black);
 
-		renderer.render(text_field);
+		renderer.render(t_text);
+		renderer.render(h_text);
 
 		screen->show_picture(framebuffer.data().data());
 
-		while (true);
+		::std::this_thread::sleep_for(1s);
 	}
 }
